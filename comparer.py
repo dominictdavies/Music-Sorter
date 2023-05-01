@@ -36,14 +36,16 @@ def binary_search_insert(sorted_songs, new_song):
 
 
 def main(input_file, output_file):
+    songs = load_songs(input_file)
+
     if os.path.exists(output_file):
-        songs = load_songs(output_file)
+        sorted_songs = load_songs(output_file)
     else:
-        songs = load_songs(input_file)
+        sorted_songs = []
 
-    sorted_songs = []
+    unsorted_songs = [song for song in songs if song not in sorted_songs]
 
-    for song in songs:
+    for song in unsorted_songs:
         position = binary_search_insert(sorted_songs, song)
         if position == -1:
             break
