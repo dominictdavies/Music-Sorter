@@ -16,8 +16,8 @@ def save_things(filename, things):
 
 
 def search_thing(thing):
-    topic = "Toby Fox"
-    query = urllib.parse.quote(thing + " " + topic)
+    category = "Toby Fox"
+    query = urllib.parse.quote(thing + " " + category)
     url = f"https://www.youtube.com/results?search_query={query}"
     webbrowser.open_new_tab(url)
 
@@ -25,20 +25,24 @@ def search_thing(thing):
 def binary_search_insert(sorted_things, new_thing):
     left = 0
     right = len(sorted_things)
+    show_prompt = True
 
     while left < right:
         mid = (left + right) // 2
-        print(
-            f"Is '{new_thing}' better than '{sorted_things[mid]}'? (yes/no/stop/search 1/search 2)"
-        )
+
+        if show_prompt:
+            print(
+                f"Is '{new_thing}' better than '{sorted_things[mid]}'? (yes/no/search/stop)"
+            )
         answer = input().lower().split()
+        show_prompt = False
 
         if answer[0] == "yes":
             right = mid
+            show_prompt = True
         elif answer[0] == "no":
             left = mid + 1
-        elif answer[0] == "stop":
-            return -1
+            show_prompt = True
         elif answer[0] == "search":
             if len(answer) > 1:
                 if answer[1] == "1":
@@ -50,22 +54,30 @@ def binary_search_insert(sorted_things, new_thing):
             else:
                 search_thing(new_thing)
                 search_thing(sorted_things[mid])
+        elif answer[0] == "stop":
+            return -1
         else:
-            print(
-                "Invalid input. Please enter 'yes', 'no', 'stop', 'search 1', or 'search 2'."
-            )
+            print("Invalid input. Please enter 'yes', 'no', 'search', or 'stop'.")
 
     sorted_things.insert(left, new_thing)
+    print(
+        new_thing,
+        "was inserted into position",
+        left + 1,
+        "out of",
+        len(sorted_things),
+        "\n\n",
+    )
+
     return left
 
 
 def main(input_file, output_file):
     things = load_things(input_file)
 
+    sorted_things = []
     if os.path.exists(output_file):
         sorted_things = load_things(output_file)
-    else:
-        sorted_things = []
 
     unsorted_things = [thing for thing in things if thing not in sorted_things]
 
