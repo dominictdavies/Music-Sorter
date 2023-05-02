@@ -1,5 +1,7 @@
 import os
 import sys
+import webbrowser
+import urllib.parse
 
 
 def load_things(filename):
@@ -13,23 +15,45 @@ def save_things(filename, things):
             file.write(thing + "\n")
 
 
+def search_thing(thing):
+    topic = "Toby Fox"
+    query = urllib.parse.quote(thing + " " + topic)
+    url = f"https://www.youtube.com/results?search_query={query}"
+    webbrowser.open_new_tab(url)
+
+
 def binary_search_insert(sorted_things, new_thing):
     left = 0
     right = len(sorted_things)
 
     while left < right:
         mid = (left + right) // 2
-        print(f"Is '{new_thing}' better than '{sorted_things[mid]}'? (yes/no/stop)")
-        answer = input().lower()
+        print(
+            f"Is '{new_thing}' better than '{sorted_things[mid]}'? (yes/no/stop/search 1/search 2)"
+        )
+        answer = input().lower().split()
 
-        if answer == "yes":
+        if answer[0] == "yes":
             right = mid
-        elif answer == "no":
+        elif answer[0] == "no":
             left = mid + 1
-        elif answer == "stop":
+        elif answer[0] == "stop":
             return -1
+        elif answer[0] == "search":
+            if len(answer) > 1:
+                if answer[1] == "1":
+                    search_thing(new_thing)
+                elif answer[1] == "2":
+                    search_thing(sorted_things[mid])
+                else:
+                    print("Invalid input. Please enter 'search 1' or 'search 2'.")
+            else:
+                search_thing(new_thing)
+                search_thing(sorted_things[mid])
         else:
-            print("Invalid input. Please enter 'yes', 'no', or 'stop'.")
+            print(
+                "Invalid input. Please enter 'yes', 'no', 'stop', 'search 1', or 'search 2'."
+            )
 
     sorted_things.insert(left, new_thing)
     return left
