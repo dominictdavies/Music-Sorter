@@ -2,24 +2,24 @@ import os
 import sys
 
 
-def load_songs(filename):
+def load_things(filename):
     with open(filename, "r") as file:
         return [line.strip() for line in file.readlines()]
 
 
-def save_songs(filename, songs):
+def save_things(filename, things):
     with open(filename, "w") as file:
-        for song in songs:
-            file.write(song + "\n")
+        for thing in things:
+            file.write(thing + "\n")
 
 
-def binary_search_insert(sorted_songs, new_song):
+def binary_search_insert(sorted_things, new_thing):
     left = 0
-    right = len(sorted_songs)
+    right = len(sorted_things)
 
     while left < right:
         mid = (left + right) // 2
-        print(f"Is '{new_song}' better than '{sorted_songs[mid]}'? (yes/no/stop)")
+        print(f"Is '{new_thing}' better than '{sorted_things[mid]}'? (yes/no/stop)")
         answer = input().lower()
 
         if answer == "yes":
@@ -31,26 +31,26 @@ def binary_search_insert(sorted_songs, new_song):
         else:
             print("Invalid input. Please enter 'yes', 'no', or 'stop'.")
 
-    sorted_songs.insert(left, new_song)
+    sorted_things.insert(left, new_thing)
     return left
 
 
 def main(input_file, output_file):
-    songs = load_songs(input_file)
+    things = load_things(input_file)
 
     if os.path.exists(output_file):
-        sorted_songs = load_songs(output_file)
+        sorted_things = load_things(output_file)
     else:
-        sorted_songs = []
+        sorted_things = []
 
-    unsorted_songs = [song for song in songs if song not in sorted_songs]
+    unsorted_things = [thing for thing in things if thing not in sorted_things]
 
-    for song in unsorted_songs:
-        position = binary_search_insert(sorted_songs, song)
+    for thing in unsorted_things:
+        position = binary_search_insert(sorted_things, thing)
         if position == -1:
             break
 
-    save_songs(output_file, sorted_songs)
+    save_things(output_file, sorted_things)
     print("Current sorted list saved to", output_file)
 
 
