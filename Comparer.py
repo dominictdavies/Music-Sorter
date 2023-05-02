@@ -15,14 +15,13 @@ def save_things(filename, things):
             file.write(thing + "\n")
 
 
-def search_thing(thing):
-    category = "Toby Fox"
+def search_thing(thing, category):
     query = urllib.parse.quote(thing + " " + category)
-    url = f"https://www.youtube.com/results?search_query={query}"
+    url = f"https://www.google.com/search?q={query}"
     webbrowser.open_new_tab(url)
 
 
-def binary_search_insert(sorted_things, new_thing):
+def binary_search_insert(sorted_things, new_thing, category):
     left = 0
     right = len(sorted_things)
     show_prompt = True
@@ -46,14 +45,14 @@ def binary_search_insert(sorted_things, new_thing):
         elif answer[0] == "search":
             if len(answer) > 1:
                 if answer[1] == "1":
-                    search_thing(new_thing)
+                    search_thing(new_thing, category)
                 elif answer[1] == "2":
-                    search_thing(sorted_things[mid])
+                    search_thing(sorted_things[mid], category)
                 else:
                     print("Invalid input. Please enter 'search 1' or 'search 2'.")
             else:
-                search_thing(new_thing)
-                search_thing(sorted_things[mid])
+                search_thing(new_thing, category)
+                search_thing(sorted_things[mid], category)
         elif answer[0] == "stop":
             return -1
         else:
@@ -66,7 +65,7 @@ def binary_search_insert(sorted_things, new_thing):
         left + 1,
         "out of",
         len(sorted_things),
-        "\n\n",
+        "\n",
     )
 
     return left
@@ -74,6 +73,7 @@ def binary_search_insert(sorted_things, new_thing):
 
 def main(input_file, output_file):
     things = load_things(input_file)
+    category = input("What category? ")
 
     sorted_things = []
     if os.path.exists(output_file):
@@ -82,7 +82,7 @@ def main(input_file, output_file):
     unsorted_things = [thing for thing in things if thing not in sorted_things]
 
     for thing in unsorted_things:
-        position = binary_search_insert(sorted_things, thing)
+        position = binary_search_insert(sorted_things, thing, category)
         if position == -1:
             break
 
