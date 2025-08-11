@@ -1,5 +1,6 @@
 import os
 import sys
+import pygame
 
 
 def list_songs(music_path):
@@ -15,28 +16,41 @@ def load_sorted(sorted_file):
         return [line.strip() for line in file.readlines()]
 
 
+def play_song(music_path, song):
+    song_path = os.path.join(music_path, song)
+    if pygame.mixer.music.get_busy():
+        pygame.mixer.music.stop()
+    pygame.mixer.music.load(song_path)
+    pygame.mixer.music.play()
+
+
 def save_songs(sorted_file, sorted_songs):
     with open(sorted_file, "w") as file:
         for song in sorted_songs:
             file.write(song + "\n")
 
 
-def binary_search_insert(sorted_songs, new_song):
+def binary_search_insert(sorted_songs, new_song, music_path):
     left = 0
     right = len(sorted_songs)
 
     while left < right:
         mid = (left + right) // 2
         old_song = sorted_songs[mid]
+
+        play_song(music_path, new_song)
+        playing_new_song = True
         print(f"Is '{new_song}' better than '{old_song}'? (yes/no/switch)")
 
-        answer = "switch"
         while True:
             answer = input().lower()
-            if answer[0] == "s":
-                print(f"Now playing: {new_song}")
-            elif answer[0] == "y" or answer[0] == "n":
+            if answer[0] == "y" or answer[0] == "n":
                 break
+            elif answer[0] == "s":
+                next_song = old_song if playing_new_song else new_song
+                playing_new_song = not playing_new_song
+                play_song(music_path, next_song)
+                print(f"Now playing: {next_song}")
             else:
                 print("Invalid response, please enter 'yes', 'no', or 'switch'.")
 
@@ -47,13 +61,15 @@ def binary_search_insert(sorted_songs, new_song):
 
     sorted_songs.insert(left, new_song)
     print(
-        f"{new_song} was inserted into position {left + 1} out of {len(sorted_songs)}.\n"
+        f"{new_song} was inserted into position {left + 1} out of {len(sorted_songs)}.\n\n"
     )
 
     return left
 
 
 def main(music_path, sorted_file):
+    pygame.mixer.init()
+
     songs = list_songs(music_path)
 
     sorted_songs = []
@@ -63,7 +79,7 @@ def main(music_path, sorted_file):
     unsorted_songs = [song for song in songs if song not in sorted_songs]
 
     for song in unsorted_songs:
-        position = binary_search_insert(sorted_songs, song)
+        position = binary_search_insert(sorted_songs, song, music_path)
         save_songs(sorted_file, sorted_songs)
         if position == -1:
             break
