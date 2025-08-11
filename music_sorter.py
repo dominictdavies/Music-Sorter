@@ -16,7 +16,7 @@ def save_songs(filename, songs):
             file.write(song + "\n")
 
 
-def binary_search_insert(sorted_songs, new_song, category):
+def binary_search_insert(sorted_songs, new_song):
     left = 0
     right = len(sorted_songs)
     show_prompt = True
@@ -66,17 +66,16 @@ def binary_search_insert(sorted_songs, new_song, category):
 
 
 def main(music_path, sorted_file):
-    songs = list_song_names(music_path)
-    category = input("What category? ")
+    song_names = list_song_names(music_path)
 
     sorted_songs = []
     if os.path.exists(sorted_file):
         sorted_songs = list_song_names(sorted_file)
 
-    unsorted_songs = [song for song in songs if song not in sorted_songs]
+    unsorted_songs = [song for song in song_names if song not in sorted_songs]
 
     for song in unsorted_songs:
-        position = binary_search_insert(sorted_songs, song, category)
+        position = binary_search_insert(sorted_songs, song)
         if position == -1:
             break
 
