@@ -65,13 +65,13 @@ def binary_search_insert(sorted_songs, new_song, category):
     return left
 
 
-def main(input_file, output_file):
-    songs = list_song_names(input_file)
+def main(music_path, sorted_file):
+    songs = list_song_names(music_path)
     category = input("What category? ")
 
     sorted_songs = []
-    if os.path.exists(output_file):
-        sorted_songs = list_song_names(output_file)
+    if os.path.exists(sorted_file):
+        sorted_songs = list_song_names(sorted_file)
 
     unsorted_songs = [song for song in songs if song not in sorted_songs]
 
@@ -80,15 +80,15 @@ def main(input_file, output_file):
         if position == -1:
             break
 
-    save_songs(output_file, sorted_songs)
-    print("Current sorted list saved to", output_file)
+    save_songs(sorted_file, sorted_songs)
+    print("Current sorted list saved to", sorted_file)
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python Comparer.py <music_path> <output_filename>")
+        print("Usage: python Comparer.py <music_path> <sorted_filename>")
         sys.exit(1)
 
     music_path = sys.argv[1]
-    output_file = sys.argv[2]
-    main(music_path, output_file)
+    sorted_file = sys.argv[2]
+    main(music_path, sorted_file)
