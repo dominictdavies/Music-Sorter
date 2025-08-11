@@ -1,0 +1,11 @@
+# All text files
+*.txt
+
+# Include requirements.txt
+!requirements.txt
+
+# Virtual environment
+.venv/*
+
+# Nix development
+*.nix
