@@ -10,6 +10,11 @@ def list_song_names(music_path):
     ]
 
 
+def load_sorted(sorted_file):
+    with open(sorted_file, "r") as file:
+        return [line.strip() for line in file.readlines()]
+
+
 def save_songs(filename, songs):
     with open(filename, "w") as file:
         for song in songs:
@@ -70,7 +75,7 @@ def main(music_path, sorted_file):
 
     sorted_songs = []
     if os.path.exists(sorted_file):
-        sorted_songs = list_song_names(sorted_file)
+        sorted_songs = load_sorted(sorted_file)
 
     unsorted_songs = [song for song in song_names if song not in sorted_songs]
 
