@@ -2,20 +2,20 @@ import os
 import sys
 
 
-def load_things(filename):
+def load_songs(filename):
     with open(filename, "r") as file:
         return [line.strip() for line in file.readlines()]
 
 
-def save_things(filename, things):
+def save_songs(filename, songs):
     with open(filename, "w") as file:
-        for thing in things:
-            file.write(thing + "\n")
+        for song in songs:
+            file.write(song + "\n")
 
 
-def binary_search_insert(sorted_things, new_thing, category):
+def binary_search_insert(sorted_songs, new_song, category):
     left = 0
-    right = len(sorted_things)
+    right = len(sorted_songs)
     show_prompt = True
 
     while left < right:
@@ -23,7 +23,7 @@ def binary_search_insert(sorted_things, new_thing, category):
 
         if show_prompt:
             print(
-                f"Is '{new_thing}' better than '{sorted_things[mid]}'? (yes/no/search/stop)"
+                f"Is '{new_song}' better than '{sorted_songs[mid]}'? (yes/no/search/stop)"
             )
         answer = input().lower().split()
         show_prompt = False
@@ -49,13 +49,13 @@ def binary_search_insert(sorted_things, new_thing, category):
         else:
             print("Invalid input. Please enter 'yes', 'no', 'search', or 'stop'.")
 
-    sorted_things.insert(left, new_thing)
+    sorted_songs.insert(left, new_song)
     print(
-        new_thing,
+        new_song,
         "was inserted into position",
         left + 1,
         "out of",
-        len(sorted_things),
+        len(sorted_songs),
         "\n",
     )
 
@@ -63,21 +63,21 @@ def binary_search_insert(sorted_things, new_thing, category):
 
 
 def main(input_file, output_file):
-    things = load_things(input_file)
+    songs = load_songs(input_file)
     category = input("What category? ")
 
-    sorted_things = []
+    sorted_songs = []
     if os.path.exists(output_file):
-        sorted_things = load_things(output_file)
+        sorted_songs = load_songs(output_file)
 
-    unsorted_things = [thing for thing in things if thing not in sorted_things]
+    unsorted_songs = [song for song in songs if song not in sorted_songs]
 
-    for thing in unsorted_things:
-        position = binary_search_insert(sorted_things, thing, category)
+    for song in unsorted_songs:
+        position = binary_search_insert(sorted_songs, song, category)
         if position == -1:
             break
 
-    save_things(output_file, sorted_things)
+    save_songs(output_file, sorted_songs)
     print("Current sorted list saved to", output_file)
 
 
