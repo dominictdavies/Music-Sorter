@@ -1,5 +1,8 @@
 # All text files
 *.txt
 
+# Virtual environment
+.venv/*
+
 # Nix development
 *.nix
