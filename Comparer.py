@@ -1,7 +1,5 @@
 import os
 import sys
-import webbrowser
-import urllib.parse
 
 
 def load_things(filename):
@@ -13,12 +11,6 @@ def save_things(filename, things):
     with open(filename, "w") as file:
         for thing in things:
             file.write(thing + "\n")
-
-
-def search_thing(thing, category):
-    query = urllib.parse.quote(thing + " " + category)
-    url = f"https://www.google.com/search?q={query}"
-    webbrowser.open_new_tab(url)
 
 
 def binary_search_insert(sorted_things, new_thing, category):
@@ -45,14 +37,13 @@ def binary_search_insert(sorted_things, new_thing, category):
         elif answer[0] == "search":
             if len(answer) > 1:
                 if answer[1] == "1":
-                    search_thing(new_thing, category)
+                    print("No more online searching")
                 elif answer[1] == "2":
-                    search_thing(sorted_things[mid], category)
+                    print("No more online searching")
                 else:
                     print("Invalid input. Please enter 'search 1' or 'search 2'.")
             else:
-                search_thing(new_thing, category)
-                search_thing(sorted_things[mid], category)
+                print("No more online searching")
         elif answer[0] == "stop":
             return -1
         else:
