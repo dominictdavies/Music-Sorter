@@ -15,9 +15,9 @@ def load_sorted(sorted_file):
         return [line.strip() for line in file.readlines()]
 
 
-def save_songs(filename, songs):
+def save_songs(filename, sorted_songs):
     with open(filename, "w") as file:
-        for song in songs:
+        for song in sorted_songs:
             file.write(song + "\n")
 
 
@@ -81,11 +81,11 @@ def main(music_path, sorted_file):
 
     for song in unsorted_songs:
         position = binary_search_insert(sorted_songs, song)
+        save_songs(sorted_file, sorted_songs)
         if position == -1:
             break
 
-    save_songs(sorted_file, sorted_songs)
-    print("Current sorted list saved to", sorted_file)
+    print("Sorting complete!")
 
 
 if __name__ == "__main__":
