@@ -2,11 +2,11 @@ import os
 import sys
 
 
-def list_song_names(music_path):
+def list_songs(music_path):
     return [
-        song_name
-        for song_name in os.listdir(music_path)
-        if os.path.isfile(os.path.join(music_path, song_name))
+        song
+        for song in os.listdir(music_path)
+        if os.path.isfile(os.path.join(music_path, song))
     ]
 
 
@@ -71,13 +71,13 @@ def binary_search_insert(sorted_songs, new_song):
 
 
 def main(music_path, sorted_file):
-    song_names = list_song_names(music_path)
+    songs = list_songs(music_path)
 
     sorted_songs = []
     if os.path.exists(sorted_file):
         sorted_songs = load_sorted(sorted_file)
 
-    unsorted_songs = [song for song in song_names if song not in sorted_songs]
+    unsorted_songs = [song for song in songs if song not in sorted_songs]
 
     for song in unsorted_songs:
         position = binary_search_insert(sorted_songs, song)
