@@ -76,4 +76,4 @@ if __name__ == "__main__":
 
     music_path = sys.argv[1]
     sorted_file = sys.argv[2]
-    main(music_path, sorted_file)
+    main(music_path, sorted_file + ".txt")
