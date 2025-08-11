@@ -2,9 +2,12 @@ import os
 import sys
 
 
-def load_songs(filename):
-    with open(filename, "r") as file:
-        return [line.strip() for line in file.readlines()]
+def list_song_names(directory_path):
+    return [
+        song_name
+        for song_name in os.listdir(directory_path)
+        if os.path.isfile(os.path.join(directory_path, song_name))
+    ]
 
 
 def save_songs(filename, songs):
@@ -63,12 +66,12 @@ def binary_search_insert(sorted_songs, new_song, category):
 
 
 def main(input_file, output_file):
-    songs = load_songs(input_file)
+    songs = list_song_names(input_file)
     category = input("What category? ")
 
     sorted_songs = []
     if os.path.exists(output_file):
-        sorted_songs = load_songs(output_file)
+        sorted_songs = list_song_names(output_file)
 
     unsorted_songs = [song for song in songs if song not in sorted_songs]
 
