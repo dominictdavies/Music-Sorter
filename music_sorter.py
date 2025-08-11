@@ -46,7 +46,9 @@ def binary_search_insert(sorted_songs, new_song):
             left = mid + 1
 
     sorted_songs.insert(left, new_song)
-    print(f"{new_song} was inserted into position {left + 1} out of {len(sorted_songs)}.\n")
+    print(
+        f"{new_song} was inserted into position {left + 1} out of {len(sorted_songs)}.\n"
+    )
 
     return left
 
@@ -76,4 +78,9 @@ if __name__ == "__main__":
 
     music_path = sys.argv[1]
     sorted_file = sys.argv[2]
-    main(music_path, sorted_file + ".txt")
+
+    try:
+        main(music_path, sorted_file + ".txt")
+    except KeyboardInterrupt:
+        print("\nExiting...")
+        sys.exit(0)
