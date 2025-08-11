@@ -86,7 +86,7 @@ def main(music_path, sorted_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python Comparer.py <music_path> <sorted_filename>")
+        print("Usage: python music_sorter.py <music_path> <sorted_filename>")
         sys.exit(1)
 
     music_path = sys.argv[1]
