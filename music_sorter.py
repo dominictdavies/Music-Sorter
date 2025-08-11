@@ -2,11 +2,11 @@ import os
 import sys
 
 
-def list_song_names(directory_path):
+def list_song_names(music_path):
     return [
         song_name
-        for song_name in os.listdir(directory_path)
-        if os.path.isfile(os.path.join(directory_path, song_name))
+        for song_name in os.listdir(music_path)
+        if os.path.isfile(os.path.join(music_path, song_name))
     ]
 
 
@@ -86,9 +86,9 @@ def main(input_file, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python Comparer.py <directory_path> <output_filename>")
+        print("Usage: python Comparer.py <music_path> <output_filename>")
         sys.exit(1)
 
-    input_file = sys.argv[1]
+    music_path = sys.argv[1]
     output_file = sys.argv[2]
-    main(input_file, output_file)
+    main(music_path, output_file)
