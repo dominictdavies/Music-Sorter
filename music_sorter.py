@@ -15,8 +15,8 @@ def load_sorted(sorted_file):
         return [line.strip() for line in file.readlines()]
 
 
-def save_songs(filename, sorted_songs):
-    with open(filename, "w") as file:
+def save_songs(sorted_file, sorted_songs):
+    with open(sorted_file, "w") as file:
         for song in sorted_songs:
             file.write(song + "\n")
 
@@ -77,10 +77,10 @@ if __name__ == "__main__":
         sys.exit(1)
 
     music_path = sys.argv[1]
-    sorted_file = sys.argv[2]
+    sorted_file = sys.argv[2] + ".txt"
 
     try:
-        main(music_path, sorted_file + ".txt")
+        main(music_path, sorted_file)
     except KeyboardInterrupt:
         print("\nExiting...")
         sys.exit(0)
