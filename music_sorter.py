@@ -24,48 +24,29 @@ def save_songs(filename, sorted_songs):
 def binary_search_insert(sorted_songs, new_song):
     left = 0
     right = len(sorted_songs)
-    show_prompt = True
 
     while left < right:
         mid = (left + right) // 2
+        old_song = sorted_songs[mid]
+        print(f"Is '{new_song}' better than '{old_song}'? (yes/no/switch)")
 
-        if show_prompt:
-            print(
-                f"Is '{new_song}' better than '{sorted_songs[mid]}'? (yes/no/search/stop)"
-            )
-        answer = input().lower().split()
-        show_prompt = False
-
-        if answer[0] == "yes":
-            right = mid
-            show_prompt = True
-        elif answer[0] == "no":
-            left = mid + 1
-            show_prompt = True
-        elif answer[0] == "search":
-            if len(answer) > 1:
-                if answer[1] == "1":
-                    print("No more online searching")
-                elif answer[1] == "2":
-                    print("No more online searching")
-                else:
-                    print("Invalid input. Please enter 'search 1' or 'search 2'.")
+        answer = "switch"
+        while True:
+            answer = input().lower()
+            if answer[0] == "s":
+                print(f"Now playing: {new_song}")
+            elif answer[0] == "y" or answer[0] == "n":
+                break
             else:
-                print("No more online searching")
-        elif answer[0] == "stop":
-            return -1
-        else:
-            print("Invalid input. Please enter 'yes', 'no', 'search', or 'stop'.")
+                print("Invalid response, please enter 'yes', 'no', or 'switch'.")
+
+        if answer[0] == "y":
+            right = mid
+        elif answer[0] == "n":
+            left = mid + 1
 
     sorted_songs.insert(left, new_song)
-    print(
-        new_song,
-        "was inserted into position",
-        left + 1,
-        "out of",
-        len(sorted_songs),
-        "\n",
-    )
+    print(f"{new_song} was inserted into position {left + 1} out of {len(sorted_songs)}.\n")
 
     return left
 
