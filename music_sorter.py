@@ -4,10 +4,12 @@ import pygame
 
 
 def list_songs(music_path):
+    audio_types = {".mp3", ".wav", ".ogg", ".flac", ".aac", ".m4a"}
     return [
         song
         for song in os.listdir(music_path)
         if os.path.isfile(os.path.join(music_path, song))
+        and os.path.splitext(song)[1].lower() in audio_types
     ]
 
 
