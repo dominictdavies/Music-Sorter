@@ -42,11 +42,10 @@ def binary_search_insert(sorted_songs, new_song, music_path):
 
         play_song(music_path, old_song)
         playing_old_song = True
+        print(f"Is '{new_song}' better than '{old_song}'? (yes/no/switch)")
 
         while True:
-            answer = input(
-                f"Is '{new_song}' better than '{old_song}'? (yes/no/switch)\n"
-            ).lower()
+            answer = input().lower()
 
             if len(answer) == 0 or answer[0] not in ["y", "n", "s"]:
                 continue
