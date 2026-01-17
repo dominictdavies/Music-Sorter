@@ -40,21 +40,25 @@ def binary_search_insert(sorted_songs, new_song, music_path):
         mid = (left + right) // 2
         old_song = sorted_songs[mid]
 
-        play_song(music_path, new_song)
-        playing_new_song = True
-        print(f"Is '{new_song}' better than '{old_song}'? (yes/no/switch)")
+        play_song(music_path, old_song)
+        playing_old_song = True
 
         while True:
-            answer = input().lower()
+            answer = input(
+                f"Is '{new_song}' better than '{old_song}'? (yes/no/switch)\n"
+            ).lower()
+
+            if len(answer) == 0 or answer[0] not in ["y", "n", "s"]:
+                continue
+
             if answer[0] == "y" or answer[0] == "n":
                 break
-            elif answer[0] == "s":
-                next_song = old_song if playing_new_song else new_song
-                playing_new_song = not playing_new_song
+
+            if answer[0] == "s":
+                next_song = new_song if playing_old_song else old_song
+                playing_old_song = not playing_old_song
                 play_song(music_path, next_song)
                 print(f"Now playing: {next_song}")
-            else:
-                print("Invalid response, please enter 'yes', 'no', or 'switch'.")
 
         if answer[0] == "y":
             right = mid
@@ -81,6 +85,9 @@ def main(music_path, sorted_file):
     unsorted_songs = [song for song in songs if song not in sorted_songs]
 
     for song in unsorted_songs:
+        play_song(music_path, song)
+        input(f"Now playing: {song}")
+
         position = binary_search_insert(sorted_songs, song, music_path)
         save_songs(sorted_file, sorted_songs)
         if position == -1:
@@ -95,7 +102,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     music_path = sys.argv[1]
-    sorted_file = sys.argv[2] + ".txt"
+    sorted_file = sys.argv[2]
 
     try:
         main(music_path, sorted_file)
